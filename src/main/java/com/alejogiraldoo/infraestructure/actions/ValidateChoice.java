@@ -3,18 +3,24 @@ package com.alejogiraldoo.infraestructure.actions;
 import com.alejogiraldoo.domain.entities.PlayerEntity;
 import com.alejogiraldoo.infraestructure.services.ClueService;
 import com.alejogiraldoo.infraestructure.services.TimerService;
+import com.alejogiraldoo.infraestructure.utils.RandomNumber;
 
 public class ValidateChoice extends GameAction {
 
     private final TimerService timerService;
     private final ClueService.ClueProvider clueProvider = ClueService::showClue;
+    private final RandomNumber.RandomNumberProvider randomNumberProvider = RandomNumber::get;
+
     private final int guessingNumber;
     private int attempts = 0;
 
     public ValidateChoice( TimerService timerService, PlayerEntity playerInfo) {
         super( playerInfo );
         this.timerService = timerService;
-        this.guessingNumber = this.getGuessingNumber();
+
+        PlayerEntity.Settings settings = playerInfo.getSettings();
+        this.guessingNumber = this.randomNumberProvider.get(settings.getStartingNumber(), settings.getEndingNumber());
+
     }
 
     @Override
@@ -39,13 +45,6 @@ public class ValidateChoice extends GameAction {
         System.out.println("\nYou runned out of chances...");
         System.out.printf("The number is %s", guessingNumber);
         System.out.println("\nGAME OVER!\n");
-    }
-
-    private int getGuessingNumber() {
-        PlayerEntity.Settings settings = playerInfo.getSettings();
-
-        final int range = ( settings.getEndingNumber() - settings.getStartingNumber() ) + 1;
-        return (int) ( ( range * Math.random() ) + settings.getStartingNumber() );
     }
 
     private boolean isGuessed() {

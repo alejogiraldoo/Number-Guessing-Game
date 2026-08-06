@@ -1,6 +1,10 @@
 package com.alejogiraldoo.infraestructure.services;
 
+import com.alejogiraldoo.infraestructure.utils.RandomNumber;
+
 public class ClueService {
+
+    private static RandomNumber.RandomNumberProvider randomNumberProvider = RandomNumber::get;
 
     @FunctionalInterface
     public interface ClueProvider {
@@ -30,14 +34,10 @@ public class ClueService {
         }
     }
 
-    private static int getCloseRandomNumber(int min, int max ) {
-        final int range = ( max - min ) + 1;
-        return (int) ( ( range * Math.random() ) + min );
-    }
 
     private static void showCloseNumbers( int guessingNumber, int range ) {
-        int leftCloseNumber = getCloseRandomNumber(guessingNumber - range, ++guessingNumber);
-        int rightCloseNumber = getCloseRandomNumber(guessingNumber + range, ++guessingNumber);
+        int leftCloseNumber = randomNumberProvider.get(guessingNumber - range, ++guessingNumber);
+        int rightCloseNumber = randomNumberProvider.get(guessingNumber + range, ++guessingNumber);
 
         System.out.printf("CLUE: The number is between %s and %s\n", leftCloseNumber, rightCloseNumber);
     }
