@@ -25,7 +25,8 @@ public class ValidateChoice extends GameAction {
         }
 
         System.out.println("\nYou runned out of chances...");
-        System.out.println("GAME OVER!");
+        System.out.printf("The number is %s", guessingNumber);
+        System.out.println("\nGAME OVER!\n");
     }
 
     private int getGuessingNumber() {

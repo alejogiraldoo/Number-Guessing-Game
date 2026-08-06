@@ -28,7 +28,7 @@ public class GetDifficultyLevel extends GameAction {
     }
 
     private void showMessage() {
-        System.out.println("Please select the difficulty level:");
+        System.out.println("\nPlease select the difficulty level:");
 
         for (int i = 0; i < difficultyLevels.length; i++) {
             final EDifficultyLevel level = difficultyLevels[i];
@@ -56,7 +56,7 @@ public class GetDifficultyLevel extends GameAction {
         } while(Objects.isNull(levelOption));
 
         EDifficultyLevel difficulty = difficultyLevels[ levelOption - 1 ];
-        System.out.printf("Great! you have selected the %s difficulty level.\n", difficulty);
+        System.out.printf("\nGreat! you have selected the %s difficulty level.\n", difficulty);
         System.out.println("Let's start the game!");
 
         return difficultyLevels[ levelOption - 1 ];
