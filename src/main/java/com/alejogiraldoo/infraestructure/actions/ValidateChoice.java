@@ -1,19 +1,20 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
+import com.alejogiraldoo.domain.entities.PlayerEntity;
+import com.alejogiraldoo.infraestructure.services.ClueService;
 import com.alejogiraldoo.infraestructure.services.TimerService;
 
 public class ValidateChoice extends GameAction {
 
     private final TimerService timerService;
+    private final ClueService.ClueProvider clueProvider = ClueService::showClue;
     private final int guessingNumber;
     private int attempts = 0;
 
-    public ValidateChoice( TimerService timerService, PlayerInfoEntity playerInfo) {
+    public ValidateChoice( TimerService timerService, PlayerEntity playerInfo) {
         super( playerInfo );
         this.timerService = timerService;
         this.guessingNumber = this.getGuessingNumber();
-        System.out.println(guessingNumber);
     }
 
     @Override
@@ -28,6 +29,9 @@ public class ValidateChoice extends GameAction {
         }
 
         if( !guessed && attempts < chances ) {
+            int leftChances = chances - attempts;
+            this.clueProvider.showClue( new ClueService.GameState( leftChances, guessingNumber ) );
+            System.out.printf("You have %s attempts left.\n", leftChances);
             this.executeNext();
             return;
         }
@@ -38,7 +42,7 @@ public class ValidateChoice extends GameAction {
     }
 
     private int getGuessingNumber() {
-        PlayerInfoEntity.Settings settings = playerInfo.getSettings();
+        PlayerEntity.Settings settings = playerInfo.getSettings();
 
         final int range = ( settings.getEndingNumber() - settings.getStartingNumber() ) + 1;
         return (int) ( ( range * Math.random() ) + settings.getStartingNumber() );
@@ -53,7 +57,7 @@ public class ValidateChoice extends GameAction {
             return true;
         }
 
-        if( Integer.compare( choice, guessingNumber ) < 0 ) {
+        if( choice < guessingNumber ) {
             System.out.printf("Incorrect! The number is greater than %s.\n", choice);
             return false;
         }

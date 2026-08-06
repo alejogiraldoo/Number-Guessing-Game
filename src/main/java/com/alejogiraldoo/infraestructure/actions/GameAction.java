@@ -1,15 +1,15 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
+import com.alejogiraldoo.domain.entities.PlayerEntity;
 
 import java.util.Objects;
 
 public abstract class GameAction {
 
     private GameAction next;
-    PlayerInfoEntity playerInfo;
+    PlayerEntity playerInfo;
 
-    public GameAction(PlayerInfoEntity playerInfo) {
+    public GameAction(PlayerEntity playerInfo) {
         this.playerInfo = playerInfo;
     }
 

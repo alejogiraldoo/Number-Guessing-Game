@@ -1,6 +1,6 @@
 package com.alejogiraldoo.presentation;
 
-import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
+import com.alejogiraldoo.domain.entities.PlayerEntity;
 import com.alejogiraldoo.infraestructure.actions.GetChoice;
 import com.alejogiraldoo.infraestructure.actions.GetDifficultyLevel;
 import com.alejogiraldoo.infraestructure.actions.ValidateChoice;
@@ -13,11 +13,11 @@ public class GuessingGame {
 
     private final Scanner sc = new Scanner(System.in);
     private final TimerService timerService;
-    private final PlayerInfoEntity.Settings settings;
+    private final PlayerEntity.Settings settings;
 
     public GuessingGame(
             TimerService timerService,
-            PlayerInfoEntity.Settings settings
+            PlayerEntity.Settings settings
     ) {
         this.timerService = timerService;
         this.settings = settings;
@@ -25,7 +25,7 @@ public class GuessingGame {
     }
 
     public void start() {
-        final PlayerInfoEntity playerInfo = new PlayerInfoEntity( this.settings );
+        final PlayerEntity playerInfo = new PlayerEntity( this.settings );
 
         final GetDifficultyLevel getDifficultyLevel = new GetDifficultyLevel( sc, playerInfo );
         final GetChoice getChoice = new GetChoice( sc, timerService, playerInfo );

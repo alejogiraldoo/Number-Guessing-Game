@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
+import com.alejogiraldoo.domain.entities.PlayerEntity;
 import com.alejogiraldoo.domain.enums.EDifficultyLevel;
 
 import java.util.InputMismatchException;
@@ -12,7 +12,7 @@ public class GetDifficultyLevel extends GameAction {
     private final Scanner sc;
     private final EDifficultyLevel[] difficultyLevels = EDifficultyLevel.values();
 
-    public GetDifficultyLevel( Scanner sc, PlayerInfoEntity personInfo ) {
+    public GetDifficultyLevel( Scanner sc, PlayerEntity personInfo ) {
         super( personInfo );
         this.sc = sc;
     }
