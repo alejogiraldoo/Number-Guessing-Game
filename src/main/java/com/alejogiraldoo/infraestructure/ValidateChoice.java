@@ -2,8 +2,6 @@ package com.alejogiraldoo.infraestructure;
 
 import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
 
-import java.util.Scanner;
-
 public class ValidateChoice extends GameAction {
 
     private final int guessingNumber;
@@ -17,7 +15,17 @@ public class ValidateChoice extends GameAction {
     @Override
     public void execute() {
         final boolean guessed = this.isGuessed();
-        if( !guessed ) this.executeNext();
+        final int chances = playerInfo.getDifficultyLevel().getChances();
+
+        if( guessed && attempts <= chances ) return;
+
+        if( !guessed && attempts < chances ) {
+            this.executeNext();
+            return;
+        }
+
+        System.out.println("\nYou runned out of chances...");
+        System.out.println("GAME OVER!");
     }
 
     private int getGuessingNumber() {
