@@ -17,6 +17,8 @@ public class GuessingGame {
     }
 
     public void start() {
+        this.showGameRules();
+
         final GetDifficultyLevel getDifficultyLevel = new GetDifficultyLevel( sc, playerInfo );
         final GetChoice getChoice = new GetChoice( sc, playerInfo );
         final ValidateChoice validateChoice = new ValidateChoice( playerInfo );
@@ -26,6 +28,14 @@ public class GuessingGame {
         validateChoice.setNext( getChoice );
 
         getDifficultyLevel.execute();
+    }
+
+    private void showGameRules() {
+        final PlayerInfoEntity.Settings settings = this.playerInfo.getSettings();
+
+        System.out.println("Welcome to the Number Guessing Game!");
+        System.out.printf("I'm thinking of a number between %s and %s.\n", settings.getStartingNumber(), settings.getEndingNumber());
+        System.out.println("You have a certain amount of chances to guess the correct number.\n");
     }
 
 }
