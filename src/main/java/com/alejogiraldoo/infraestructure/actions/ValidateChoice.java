@@ -1,15 +1,19 @@
-package com.alejogiraldoo.infraestructure;
+package com.alejogiraldoo.infraestructure.actions;
 
 import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
+import com.alejogiraldoo.infraestructure.services.TimerService;
 
 public class ValidateChoice extends GameAction {
 
+    private final TimerService timerService;
     private final int guessingNumber;
     private int attempts = 0;
 
-    public ValidateChoice(PlayerInfoEntity playerInfo) {
+    public ValidateChoice( TimerService timerService, PlayerInfoEntity playerInfo) {
         super( playerInfo );
+        this.timerService = timerService;
         this.guessingNumber = this.getGuessingNumber();
+        System.out.println(guessingNumber);
     }
 
     @Override
@@ -17,7 +21,11 @@ public class ValidateChoice extends GameAction {
         final boolean guessed = this.isGuessed();
         final int chances = playerInfo.getDifficultyLevel().getChances();
 
-        if( guessed && attempts <= chances ) return;
+        if( guessed && attempts <= chances ) {
+            final long time = this.timerService.endTimer();
+            System.out.printf("\nYou took %s secs to guess the number\n", time);
+            return;
+        }
 
         if( !guessed && attempts < chances ) {
             this.executeNext();

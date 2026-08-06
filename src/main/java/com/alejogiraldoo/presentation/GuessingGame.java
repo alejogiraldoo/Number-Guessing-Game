@@ -1,9 +1,10 @@
 package com.alejogiraldoo.presentation;
 
 import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
-import com.alejogiraldoo.infraestructure.GetChoice;
-import com.alejogiraldoo.infraestructure.GetDifficultyLevel;
-import com.alejogiraldoo.infraestructure.ValidateChoice;
+import com.alejogiraldoo.infraestructure.actions.GetChoice;
+import com.alejogiraldoo.infraestructure.actions.GetDifficultyLevel;
+import com.alejogiraldoo.infraestructure.actions.ValidateChoice;
+import com.alejogiraldoo.infraestructure.services.TimerService;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -11,9 +12,14 @@ import java.util.Scanner;
 public class GuessingGame {
 
     private final Scanner sc = new Scanner(System.in);
+    private final TimerService timerService;
     private final PlayerInfoEntity.Settings settings;
 
-    public GuessingGame(PlayerInfoEntity.Settings settings) {
+    public GuessingGame(
+            TimerService timerService,
+            PlayerInfoEntity.Settings settings
+    ) {
+        this.timerService = timerService;
         this.settings = settings;
         this.showGameRules();
     }
@@ -22,8 +28,8 @@ public class GuessingGame {
         final PlayerInfoEntity playerInfo = new PlayerInfoEntity( this.settings );
 
         final GetDifficultyLevel getDifficultyLevel = new GetDifficultyLevel( sc, playerInfo );
-        final GetChoice getChoice = new GetChoice( sc, playerInfo );
-        final ValidateChoice validateChoice = new ValidateChoice( playerInfo );
+        final GetChoice getChoice = new GetChoice( sc, timerService, playerInfo );
+        final ValidateChoice validateChoice = new ValidateChoice( timerService, playerInfo );
 
         getDifficultyLevel.setNext( getChoice );
         getChoice.setNext( validateChoice );
@@ -40,7 +46,7 @@ public class GuessingGame {
     }
 
     private void playAgain() {
-        System.out.println("Do you want to play again?");
+        System.out.println("\nDo you want to play again?");
 
         String decision;
 

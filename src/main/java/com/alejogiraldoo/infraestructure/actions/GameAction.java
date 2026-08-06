@@ -1,4 +1,4 @@
-package com.alejogiraldoo.infraestructure;
+package com.alejogiraldoo.infraestructure.actions;
 
 import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
 

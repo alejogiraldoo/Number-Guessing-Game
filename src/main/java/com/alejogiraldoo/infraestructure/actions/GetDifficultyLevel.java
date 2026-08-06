@@ -1,4 +1,4 @@
-package com.alejogiraldoo.infraestructure;
+package com.alejogiraldoo.infraestructure.actions;
 
 import com.alejogiraldoo.domain.entities.PlayerInfoEntity;
 import com.alejogiraldoo.domain.enums.EDifficultyLevel;
@@ -12,7 +12,7 @@ public class GetDifficultyLevel extends GameAction {
     private final Scanner sc;
     private final EDifficultyLevel[] difficultyLevels = EDifficultyLevel.values();
 
-    public GetDifficultyLevel(Scanner sc, PlayerInfoEntity personInfo) {
+    public GetDifficultyLevel( Scanner sc, PlayerInfoEntity personInfo ) {
         super( personInfo );
         this.sc = sc;
     }

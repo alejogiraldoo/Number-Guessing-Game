@@ -11,7 +11,8 @@ This project is a solution to the [Number Guessing Game](https://roadmap.sh/proj
     - **Medium**: 5 chances
     - **Hard**: 3 chances
 - **Real-Time Feedback**: Clear indicators telling the player whether the secret number is higher or lower than their current guess.
-- **Times Counter System**: Tracks and displays the exact amount of times taken to successfully guess the number.
+- **Replayability**: Play multiple consecutive rounds without having to restart the application.
+- **Timer System**: Tracks and displays the exact time taken to successfully guess the number.
 - **Hint System**: Provides smart clues to guide players when they get stuck.
 
 ## Technical Details
