@@ -36,8 +36,8 @@ public class ClueService {
 
 
     private static void showCloseNumbers( int guessingNumber, int range ) {
-        int leftCloseNumber = randomNumberProvider.get(guessingNumber - range, ++guessingNumber);
-        int rightCloseNumber = randomNumberProvider.get(guessingNumber + range, ++guessingNumber);
+        int leftCloseNumber = randomNumberProvider.get(guessingNumber - range, guessingNumber - 1);
+        int rightCloseNumber = randomNumberProvider.get(guessingNumber + 1, guessingNumber + range);
 
         System.out.printf("CLUE: The number is between %s and %s\n", leftCloseNumber, rightCloseNumber);
     }
