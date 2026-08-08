@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="728b8dab-0836-4f2f-929b-c5c7997a690d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/services/ClueService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/services/ClueService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/utils/RandomNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/utils/RandomNumber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/alejogiraldoo/infraestructure/services/ClueServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/alejogiraldoo/infraestructure/services/ClueServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,13 +53,16 @@
     "JUnit.GetChoiceTest.shouldStartTimer.executor": "Run",
     "JUnit.GetChoiceTest.shouldThrowErrorWhenInputIsNotANumber.executor": "Run",
     "JUnit.TestApp.test.executor": "Run",
+    "Maven.number-guessing-game [clean].executor": "Run",
+    "Maven.number-guessing-game [compile].executor": "Run",
+    "Maven.number-guessing-game [test].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/USUARIO/Desktop/number-guessing-game/number-guessing-game",
@@ -69,10 +70,10 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "C:/Users/USUARIO/Desktop/number-guessing-game/number-guessing-game/src/main/java/com/alejogiraldoo/Main.java",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Problems",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "actions.on.save"
+    "project.structure.side.proportion": "0.21970706",
+    "settings.editor.selected.configurable": "MavenSettings"
   }
 }]]></component>
   <component name="SharedIndexes">
