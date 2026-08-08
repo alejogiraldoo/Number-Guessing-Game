@@ -8,34 +8,34 @@ public class ClueService {
 
     @FunctionalInterface
     public interface ClueProvider {
-        void showClue( GameState state );
+        void showClue(GameState state);
     }
 
     public record GameState(
             int leftChances,
             int guessingNumber
-    ) {}
+    ) {
+    }
 
-    public static void showClue( GameState state ) {
+    public static void showClue(GameState state) {
 
-        if( state.leftChances == 7 ) {
-            showCloseNumbers( state.guessingNumber(), 30 );
+        if (state.leftChances == 7) {
+            showCloseNumbers(state.guessingNumber(), 30);
             return;
         }
 
-        if( state.leftChances == 5 ) {
-            showCloseNumbers( state.guessingNumber(), 10 );
+        if (state.leftChances == 5) {
+            showCloseNumbers(state.guessingNumber(), 10);
             return;
         }
 
-        if( state.leftChances ==  2 ) {
-            showCloseNumbers( state.guessingNumber(), 5 );
+        if (state.leftChances == 2) {
+            showCloseNumbers(state.guessingNumber(), 5);
             return;
         }
     }
 
-
-    private static void showCloseNumbers( int guessingNumber, int range ) {
+    private static void showCloseNumbers(int guessingNumber, int range) {
         int leftCloseNumber = randomNumberProvider.get(guessingNumber - range, guessingNumber - 1);
         int rightCloseNumber = randomNumberProvider.get(guessingNumber + 1, guessingNumber + range);
 

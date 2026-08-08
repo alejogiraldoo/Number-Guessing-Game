@@ -1,17 +1,15 @@
 package com.alejogiraldoo.infraestructure.utils;
 
-import com.alejogiraldoo.infraestructure.services.ClueService;
-
 public class RandomNumber {
 
     @FunctionalInterface
     public interface RandomNumberProvider {
-        int get( int min, int max );
+        int get(int min, int max);
     }
 
-    public static int get( int min, int max ){
-        final int range = ( max - min ) + 1;
-        return (int) ( ( range * Math.random() ) + min );
+    public static int get(int min, int max) {
+        final int range = (max - min) + 1;
+        return (int) ((range * Math.random()) + min);
     }
 
 }

@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="728b8dab-0836-4f2f-929b-c5c7997a690d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/services/ClueService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/services/ClueService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/utils/RandomNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alejogiraldoo/infraestructure/utils/RandomNumber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/alejogiraldoo/infraestructure/services/ClueServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/alejogiraldoo/infraestructure/services/ClueServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +46,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
+    "JUnit.ClueServiceTest.executor": "Run",
+    "JUnit.ClueServiceTest.shouldShowClueWhen7ChancesLeft.executor": "Run",
     "JUnit.GetChoiceTest.execute.executor": "Run",
     "JUnit.GetChoiceTest.executor": "Run",
     "JUnit.GetChoiceTest.shouldNotStartTimer.executor": "Run",
@@ -56,7 +61,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "temp-branch",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/USUARIO/Desktop/number-guessing-game/number-guessing-game",
@@ -92,6 +97,15 @@
     <option name="version" value="3" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/alejogiraldoo/infraestructure/services/ClueServiceTest.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="com.alejogiraldoo.infraestructure.services.TimerService" memberName="start" />
