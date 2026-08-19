@@ -16,6 +16,7 @@ from **Roadmap.sh**.
   current guess.
 - **Replayability**: Play multiple consecutive rounds without having to restart the application.
 - **Timer System**: Tracks and displays the exact time taken to successfully guess the number.
+- **Player stats Tracking**: Keeps track of the best rounds played and precision rate for each level.
 - **Hint System**: Provides smart clues to guide players when they get stuck.
 
 ## Technical Details
@@ -24,6 +25,7 @@ from **Roadmap.sh**.
 - **Build Tool**: Apache Maven.
 - **Testing**: JUnit 5 & Mockito.
 - **Patterns used:** Chain of Responsibility
+- **Build & Infra:** Maven, Docker & Docker Compose
 
 ## Installation & How to Run
 
@@ -32,11 +34,30 @@ need Maven installed globally on your machine** to run or test this project.
 
 Choose the method that best fits your environment:
 
+### 1. Prerequisites
+
+- **Java 17+** installed.
+- **Docker & Docker Compose** installed.
+
+### 2. Database Setup (Docker)
+
+You don't need to install MySQL locally. The project includes a `docker-compose.yaml` file to easily spin up the
+database.
+
 #### Clone this repository:
 
    ```bash
    git clone https://github.com/alejogiraldoo/Number-Guessing-Game.git
   ```
+
+### 3. Start the MySQL container:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+(This will start a MySQL instance on port 3307 with the database number_guessing_game, user root, and password 123456 as
+configured in the docker-compose.yaml).
 
 ### Option 1: Using IntelliJ IDEA (Recommended - Bundled Maven)
 
@@ -95,3 +116,6 @@ Congratulations! You guessed the correct number in 4 attempts.
 - [What is Math random () Method in Java?](https://codegym.cc/groups/posts/java-mathrandom-method)
 - [Run a Maven project without installing Maven](https://coderanch.com/t/775207/maven/build-tools/Run-Maven-project-installing-Maven)
 - [Where is bundled maven folder in IntelliJ?](https://stackoverflow.com/questions/71950579/where-is-bundled-maven-folder-in-intellij)
+- [How to use MySQL with Docker and Docker compose a beginners guide](https://geshan.com.np/blog/2022/02/mysql-docker-compose/)
+- [How to Initialize MySQL in Docker with SQL Scripts](https://oneuptime.com/blog/post/2026-03-31-mysql-docker-init-sql-scripts/view)
+- [Public Key Retrieval is not allowed](https://github.com/orgs/dbeaver/discussions/19670#discussioncomment-5580271)

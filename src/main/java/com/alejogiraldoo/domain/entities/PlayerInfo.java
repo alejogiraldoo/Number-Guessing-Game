@@ -2,7 +2,7 @@ package com.alejogiraldoo.domain.entities;
 
 import com.alejogiraldoo.domain.enums.EDifficultyLevel;
 
-public final class PlayerEntity {
+public final class PlayerInfo {
 
     private EDifficultyLevel difficultyLevel;
     private Integer choice;
@@ -26,7 +26,7 @@ public final class PlayerEntity {
         }
     }
 
-    public PlayerEntity(Settings settings) {
+    public PlayerInfo(Settings settings) {
         this.settings = settings;
     }
 

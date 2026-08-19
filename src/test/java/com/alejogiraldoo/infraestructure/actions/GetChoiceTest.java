@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerEntity;
+import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.infraestructure.services.TimerService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +30,10 @@ public class GetChoiceTest {
     private TimerService timerServiceMock;
 
     @Mock
-    private PlayerEntity.Settings settingsMock;
+    private PlayerInfo.Settings settingsMock;
 
     @Mock
-    private PlayerEntity playerInfoMock;
+    private PlayerInfo playerInfoMock;
 
     @Spy
     private final PrintStream systemOutSpy = System.out;

@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerEntity;
+import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.infraestructure.services.ClueService;
 import com.alejogiraldoo.infraestructure.services.TimerService;
 import com.alejogiraldoo.infraestructure.utils.RandomNumber;
@@ -14,11 +14,11 @@ public class ValidateChoice extends GameAction {
     private final int guessingNumber;
     private int attempts = 0;
 
-    public ValidateChoice( TimerService timerService, PlayerEntity playerInfo) {
-        super( playerInfo );
+    public ValidateChoice(TimerService timerService, PlayerInfo playerInfo) {
+        super(playerInfo);
         this.timerService = timerService;
 
-        PlayerEntity.Settings settings = playerInfo.getSettings();
+        PlayerInfo.Settings settings = playerInfo.getSettings();
         this.guessingNumber = this.randomNumberProvider.get(settings.getStartingNumber(), settings.getEndingNumber());
 
     }
@@ -28,15 +28,15 @@ public class ValidateChoice extends GameAction {
         final boolean guessed = this.isGuessed();
         final int chances = playerInfo.getDifficultyLevel().getChances();
 
-        if( guessed && attempts <= chances ) {
+        if (guessed && attempts <= chances) {
             final long time = this.timerService.endTimer();
             System.out.printf("\nYou took %s secs to guess the number\n", time);
             return;
         }
 
-        if( !guessed && attempts < chances ) {
+        if (!guessed && attempts < chances) {
             int leftChances = chances - attempts;
-            this.clueProvider.showClue( new ClueService.GameState( leftChances, guessingNumber ) );
+            this.clueProvider.showClue(new ClueService.GameState(leftChances, guessingNumber));
             System.out.printf("You have %s attempts left.\n", leftChances);
             this.executeNext();
             return;
@@ -51,12 +51,12 @@ public class ValidateChoice extends GameAction {
         final int choice = playerInfo.getChoice();
         attempts++;
 
-        if( Integer.compare( choice, guessingNumber ) == 0 ) {
+        if (Integer.compare(choice, guessingNumber) == 0) {
             System.out.printf("Congratulations! You guessed the correct number in %s attempts\n", attempts);
             return true;
         }
 
-        if( choice < guessingNumber ) {
+        if (choice < guessingNumber) {
             System.out.printf("Incorrect! The number is greater than %s.\n", choice);
             return false;
         }

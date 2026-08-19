@@ -1,6 +1,6 @@
 package com.alejogiraldoo.presentation;
 
-import com.alejogiraldoo.domain.entities.PlayerEntity;
+import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.infraestructure.actions.GetChoice;
 import com.alejogiraldoo.infraestructure.actions.GetDifficultyLevel;
 import com.alejogiraldoo.infraestructure.actions.ValidateChoice;
@@ -13,11 +13,11 @@ public class GuessingGame {
 
     private final Scanner sc = new Scanner(System.in);
     private final TimerService timerService;
-    private final PlayerEntity.Settings settings;
+    private final PlayerInfo.Settings settings;
 
     public GuessingGame(
             TimerService timerService,
-            PlayerEntity.Settings settings
+            PlayerInfo.Settings settings
     ) {
         this.timerService = timerService;
         this.settings = settings;
@@ -25,15 +25,15 @@ public class GuessingGame {
     }
 
     public void start() {
-        final PlayerEntity playerInfo = new PlayerEntity( this.settings );
+        final PlayerInfo playerInfo = new PlayerInfo(this.settings);
 
-        final GetDifficultyLevel getDifficultyLevel = new GetDifficultyLevel( sc, playerInfo );
-        final GetChoice getChoice = new GetChoice( sc, timerService, playerInfo );
-        final ValidateChoice validateChoice = new ValidateChoice( timerService, playerInfo );
+        final GetDifficultyLevel getDifficultyLevel = new GetDifficultyLevel(sc, playerInfo);
+        final GetChoice getChoice = new GetChoice(sc, timerService, playerInfo);
+        final ValidateChoice validateChoice = new ValidateChoice(timerService, playerInfo);
 
-        getDifficultyLevel.setNext( getChoice );
-        getChoice.setNext( validateChoice );
-        validateChoice.setNext( getChoice );
+        getDifficultyLevel.setNext(getChoice);
+        getChoice.setNext(validateChoice);
+        validateChoice.setNext(getChoice);
 
         getDifficultyLevel.execute();
         playAgain();
@@ -64,7 +64,7 @@ public class GuessingGame {
             decision = null;
             sc.nextLine();
 
-        } while(Objects.isNull(decision));
+        } while (Objects.isNull(decision));
 
     }
 

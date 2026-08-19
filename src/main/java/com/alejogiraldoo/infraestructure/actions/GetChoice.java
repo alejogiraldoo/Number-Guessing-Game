@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerEntity;
+import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.infraestructure.services.TimerService;
 
 import java.util.InputMismatchException;
@@ -15,24 +15,24 @@ public class GetChoice extends GameAction {
     public GetChoice(
             Scanner sc,
             TimerService timerService,
-            PlayerEntity playerInfo
+            PlayerInfo playerInfo
     ) {
-        super( playerInfo );
+        super(playerInfo);
         this.timerService = timerService;
         this.sc = sc;
     }
 
     @Override
     public void execute() {
-        if( !this.timerService.isTimerActive() ) this.timerService.startTimer();
+        if (!this.timerService.isTimerActive()) this.timerService.startTimer();
 
         final int choice = getChoice();
-        playerInfo.setChoice( choice );
+        playerInfo.setChoice(choice);
         this.executeNext();
     }
 
     private int getChoice() {
-        PlayerEntity.Settings settings = playerInfo.getSettings();
+        PlayerInfo.Settings settings = playerInfo.getSettings();
         Integer choice = null;
 
         do {

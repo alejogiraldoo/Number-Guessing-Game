@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerEntity;
+import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.domain.enums.EDifficultyLevel;
 
 import java.util.InputMismatchException;
@@ -12,8 +12,8 @@ public class GetDifficultyLevel extends GameAction {
     private final Scanner sc;
     private final EDifficultyLevel[] difficultyLevels = EDifficultyLevel.values();
 
-    public GetDifficultyLevel( Scanner sc, PlayerEntity personInfo ) {
-        super( personInfo );
+    public GetDifficultyLevel(Scanner sc, PlayerInfo personInfo) {
+        super(personInfo);
         this.sc = sc;
     }
 
@@ -22,7 +22,7 @@ public class GetDifficultyLevel extends GameAction {
         this.showMessage();
 
         final EDifficultyLevel difficulty = this.getDifficulty();
-        playerInfo.setDifficultyLevel( difficulty );
+        playerInfo.setDifficultyLevel(difficulty);
 
         this.executeNext();
     }
@@ -45,20 +45,20 @@ public class GetDifficultyLevel extends GameAction {
             try {
                 levelOption = sc.nextInt();
 
-                if ( levelOption < 1 || levelOption > difficultyLevels.length ) {
+                if (levelOption < 1 || levelOption > difficultyLevels.length) {
                     throw new IllegalArgumentException();
                 }
-            } catch ( InputMismatchException | IllegalArgumentException e ) {
+            } catch (InputMismatchException | IllegalArgumentException e) {
                 System.out.println("Please insert a number that matches the level options");
                 levelOption = null;
                 sc.nextLine();
             }
-        } while(Objects.isNull(levelOption));
+        } while (Objects.isNull(levelOption));
 
-        EDifficultyLevel difficulty = difficultyLevels[ levelOption - 1 ];
+        EDifficultyLevel difficulty = difficultyLevels[levelOption - 1];
         System.out.printf("\nGreat! you have selected the %s difficulty level.\n", difficulty);
         System.out.println("Let's start the game!");
 
-        return difficultyLevels[ levelOption - 1 ];
+        return difficultyLevels[levelOption - 1];
     }
 }

@@ -1,6 +1,6 @@
 package com.alejogiraldoo;
 
-import com.alejogiraldoo.domain.entities.PlayerEntity;
+import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.infraestructure.services.TimerService;
 import com.alejogiraldoo.presentation.GuessingGame;
 
@@ -9,10 +9,10 @@ import com.alejogiraldoo.presentation.GuessingGame;
 public class Main {
 
     public static void main(String[] args) {
-        final PlayerEntity.Settings settings = new PlayerEntity.Settings( 1, 100 );
+        final PlayerInfo.Settings settings = new PlayerInfo.Settings(1, 100);
         final TimerService timerService = new TimerService();
 
-        new GuessingGame( timerService, settings ).start();
+        new GuessingGame(timerService, settings).start();
 
     }
 }
