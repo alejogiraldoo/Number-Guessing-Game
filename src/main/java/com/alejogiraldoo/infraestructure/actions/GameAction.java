@@ -1,23 +1,21 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfo;
+import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
 import java.util.Objects;
 
 public abstract class GameAction {
 
     private GameAction next;
-    PlayerInfo playerInfo;
+    RoundInfo roundInfo;
 
-    public GameAction(PlayerInfo playerInfo) {
-        this.playerInfo = playerInfo;
+    public GameAction(RoundInfo roundInfo) {
+        this.roundInfo = roundInfo;
     }
 
     public void setNext(GameAction action) {
         this.next = action;
     }
-
-    ;
 
     public abstract void execute();
 

@@ -1,10 +1,10 @@
 package com.alejogiraldoo.presentation;
 
-import com.alejogiraldoo.domain.entities.PlayerInfo;
-import com.alejogiraldoo.infraestructure.actions.GetChoice;
-import com.alejogiraldoo.infraestructure.actions.GetDifficultyLevel;
-import com.alejogiraldoo.infraestructure.actions.ValidateChoice;
+import com.alejogiraldoo.infraestructure.actions.*;
+import com.alejogiraldoo.infraestructure.services.RoundService;
+import com.alejogiraldoo.infraestructure.services.StatsService;
 import com.alejogiraldoo.infraestructure.services.TimerService;
+import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -13,27 +13,46 @@ public class GuessingGame {
 
     private final Scanner sc = new Scanner(System.in);
     private final TimerService timerService;
-    private final PlayerInfo.Settings settings;
+    private final RoundService roundService;
+    private final StatsService statsService;
+    private final RoundInfo.Settings settings;
 
     public GuessingGame(
             TimerService timerService,
-            PlayerInfo.Settings settings
+            RoundService roundService,
+            StatsService statsService,
+            RoundInfo.Settings settings
     ) {
         this.timerService = timerService;
+        this.roundService = roundService;
+        this.statsService = statsService;
         this.settings = settings;
         this.showGameRules();
     }
 
     public void start() {
-        final PlayerInfo playerInfo = new PlayerInfo(this.settings);
+        final RoundInfo roundInfo = new RoundInfo(this.settings);
 
-        final GetDifficultyLevel getDifficultyLevel = new GetDifficultyLevel(sc, playerInfo);
-        final GetChoice getChoice = new GetChoice(sc, timerService, playerInfo);
-        final ValidateChoice validateChoice = new ValidateChoice(timerService, playerInfo);
+        final GetDifficultyLevel getDifficultyLevel = new GetDifficultyLevel(sc, roundInfo);
+        final GetChoice getChoice = new GetChoice(sc, timerService, roundInfo);
+
+        final ValidateChoice validateChoice = new ValidateChoice(
+                getChoice::execute,
+                timerService,
+                roundInfo
+        );
+
+        final SaveRound saveRound = new SaveRound(
+                roundService,
+                roundInfo
+        );
+
+        final ShowRoundResults showResults = new ShowRoundResults(statsService, roundInfo);
 
         getDifficultyLevel.setNext(getChoice);
         getChoice.setNext(validateChoice);
-        validateChoice.setNext(getChoice);
+        validateChoice.setNext(saveRound);
+        saveRound.setNext(showResults);
 
         getDifficultyLevel.execute();
         playAgain();
@@ -41,7 +60,7 @@ public class GuessingGame {
 
     private void showGameRules() {
         System.out.println("Welcome to the Number Guessing Game!");
-        System.out.printf("I'm thinking of a number between %s and %s.\n", settings.getStartingNumber(), settings.getEndingNumber());
+        System.out.printf("I'm thinking of a number between %s and %s.\n", settings.startingNumber(), settings.endingNumber());
         System.out.println("You have a certain amount of chances to guess the correct number.");
     }
 

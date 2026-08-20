@@ -69,7 +69,7 @@ FROM levels l;
 
 CREATE VIEW levels_precision_rate AS
 SELECT
-    name AS level_name,
+    name AS difficulty_level,
     ( rounds_precision_pct / rounds ) AS level_precision_pct
 FROM (
     SELECT
@@ -90,7 +90,7 @@ FROM (
 ) AS level_stats;
 
 CREATE VIEW levels_streak AS
-SELECT l.name, s.consecutive_wins, s.max_consecutive_wins
+SELECT l.name AS difficulty_level, s.consecutive_wins, s.max_consecutive_wins
 FROM streaks s
 INNER JOIN levels l
 ON s.level_id = l.level_id;

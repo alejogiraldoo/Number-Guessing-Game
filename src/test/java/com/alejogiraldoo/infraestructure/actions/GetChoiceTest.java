@@ -1,7 +1,7 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.infraestructure.services.TimerService;
+import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,10 +30,10 @@ public class GetChoiceTest {
     private TimerService timerServiceMock;
 
     @Mock
-    private PlayerInfo.Settings settingsMock;
+    private RoundInfo.Settings settingsMock;
 
     @Mock
-    private PlayerInfo playerInfoMock;
+    private RoundInfo RoundInfoMock;
 
     @Spy
     private final PrintStream systemOutSpy = System.out;
@@ -46,7 +46,7 @@ public class GetChoiceTest {
     void init() {
         doReturn(1).when(settingsMock).getStartingNumber();
         doReturn(100).when(settingsMock).getEndingNumber();
-        doReturn(settingsMock).when(playerInfoMock).getSettings();
+        doReturn(settingsMock).when(RoundInfoMock).getSettings();
 
         doAnswer((in) -> null).when(systemOutSpy).print(anyString());
 
@@ -85,7 +85,7 @@ public class GetChoiceTest {
 
         verify(systemOutSpy).print("\nEnter your guess: ");
         verify(scMock).nextInt();
-        verify(playerInfoMock).setChoice(choice);
+        verify(RoundInfoMock).setChoice(choice);
         verify(getChoice).executeNext();
     }
 
@@ -104,7 +104,7 @@ public class GetChoiceTest {
 
         verify(systemOutSpy).printf("Please insert a number between %s and %s \n", settingsMock.getStartingNumber(), settingsMock.getEndingNumber());
         verify(scMock, atLeastOnce()).nextInt();
-        verify(playerInfoMock, atMostOnce()).setChoice(anyInt());
+        verify(RoundInfoMock, atMostOnce()).setChoice(anyInt());
         verify(getChoice, atMostOnce()).executeNext();
     }
 
@@ -123,7 +123,7 @@ public class GetChoiceTest {
 
         verify(systemOutSpy).printf("Please insert a number between %s and %s \n", settingsMock.getStartingNumber(), settingsMock.getEndingNumber());
         verify(scMock, atLeastOnce()).nextInt();
-        verify(playerInfoMock, atMostOnce()).setChoice(anyInt());
+        verify(RoundInfoMock, atMostOnce()).setChoice(anyInt());
         verify(getChoice, atMostOnce()).executeNext();
     }
 

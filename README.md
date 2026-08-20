@@ -24,7 +24,7 @@ from **Roadmap.sh**.
 - **Language:** Java (JDK 17 or higher recommended).
 - **Build Tool**: Apache Maven.
 - **Testing**: JUnit 5 & Mockito.
-- **Patterns used:** Chain of Responsibility
+- **Patterns used:** Chain of Responsibility, Facade & Singleton
 - **Build & Infra:** Maven, Docker & Docker Compose
 
 ## Installation & How to Run
@@ -113,6 +113,8 @@ Congratulations! You guessed the correct number in 4 attempts.
 
 - [Java Enum Constructor](https://www.w3schools.com/java/java_enum_constructor.asp)
 - [Chain of Responsibility](https://refactoring.guru/design-patterns/chain-of-responsibility)
+- [Singleton](https://refactoring.guru/design-patterns/singleton)
+- [Facade](https://refactoring.guru/design-patterns/facade)
 - [What is Math random () Method in Java?](https://codegym.cc/groups/posts/java-mathrandom-method)
 - [Run a Maven project without installing Maven](https://coderanch.com/t/775207/maven/build-tools/Run-Maven-project-installing-Maven)
 - [Where is bundled maven folder in IntelliJ?](https://stackoverflow.com/questions/71950579/where-is-bundled-maven-folder-in-intellij)

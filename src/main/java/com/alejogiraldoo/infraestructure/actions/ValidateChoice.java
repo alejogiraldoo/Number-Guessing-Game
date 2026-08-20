@@ -1,12 +1,17 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfo;
+import com.alejogiraldoo.domain.enums.EResultType;
 import com.alejogiraldoo.infraestructure.services.ClueService;
 import com.alejogiraldoo.infraestructure.services.TimerService;
 import com.alejogiraldoo.infraestructure.utils.RandomNumber;
+import com.alejogiraldoo.infraestructure.utils.RoundInfo;
+
+import java.time.LocalTime;
+import java.util.Objects;
 
 public class ValidateChoice extends GameAction {
 
+    private final GetChoice.ChoiceGetter choiceGetter;
     private final TimerService timerService;
     private final ClueService.ClueProvider clueProvider = ClueService::showClue;
     private final RandomNumber.RandomNumberProvider randomNumberProvider = RandomNumber::get;
@@ -14,23 +19,27 @@ public class ValidateChoice extends GameAction {
     private final int guessingNumber;
     private int attempts = 0;
 
-    public ValidateChoice(TimerService timerService, PlayerInfo playerInfo) {
-        super(playerInfo);
+    public ValidateChoice(
+            GetChoice.ChoiceGetter choiceGetter,
+            TimerService timerService,
+            RoundInfo roundInfo
+    ) {
+        super(roundInfo);
+        this.choiceGetter = choiceGetter;
         this.timerService = timerService;
 
-        PlayerInfo.Settings settings = playerInfo.getSettings();
-        this.guessingNumber = this.randomNumberProvider.get(settings.getStartingNumber(), settings.getEndingNumber());
-
+        RoundInfo.Settings settings = roundInfo.getSettings();
+        this.guessingNumber = this.randomNumberProvider.get(settings.startingNumber(), settings.endingNumber());
+        this.roundInfo.setGuessingNumber(guessingNumber);
     }
 
     @Override
     public void execute() {
         final boolean guessed = this.isGuessed();
-        final int chances = playerInfo.getDifficultyLevel().getChances();
+        final int chances = roundInfo.getDifficulty().getChances();
 
         if (guessed && attempts <= chances) {
-            final long time = this.timerService.endTimer();
-            System.out.printf("\nYou took %s secs to guess the number\n", time);
+            this.setRoundInfo(EResultType.Win);
             return;
         }
 
@@ -38,21 +47,19 @@ public class ValidateChoice extends GameAction {
             int leftChances = chances - attempts;
             this.clueProvider.showClue(new ClueService.GameState(leftChances, guessingNumber));
             System.out.printf("You have %s attempts left.\n", leftChances);
-            this.executeNext();
+            this.choiceGetter.getChoice();
             return;
         }
 
-        System.out.println("\nYou runned out of chances...");
-        System.out.printf("The number is %s", guessingNumber);
-        System.out.println("\nGAME OVER!\n");
+        this.setRoundInfo(EResultType.Loss);
     }
 
     private boolean isGuessed() {
-        final int choice = playerInfo.getChoice();
+        final int choice = roundInfo.getChoice();
         attempts++;
 
-        if (Integer.compare(choice, guessingNumber) == 0) {
-            System.out.printf("Congratulations! You guessed the correct number in %s attempts\n", attempts);
+        if (Objects.equals(choice, guessingNumber)) {
+            System.out.printf("Congratulations! You guessed the correct number in %s attempts.\n", attempts);
             return true;
         }
 
@@ -63,5 +70,13 @@ public class ValidateChoice extends GameAction {
 
         System.out.printf("Incorrect! The number is less than %s.\n", choice);
         return false;
+    }
+
+    private void setRoundInfo(EResultType gameResult) {
+        final LocalTime time = this.timerService.endTimer();
+        roundInfo.setTakenTime(time);
+        roundInfo.setGameResult(gameResult);
+        roundInfo.setAttempts(attempts);
+        this.executeNext();
     }
 }

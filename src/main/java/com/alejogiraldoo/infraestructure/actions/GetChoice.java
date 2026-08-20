@@ -1,7 +1,7 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.infraestructure.services.TimerService;
+import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
 import java.util.InputMismatchException;
 import java.util.Objects;
@@ -9,15 +9,20 @@ import java.util.Scanner;
 
 public class GetChoice extends GameAction {
 
+    @FunctionalInterface
+    public interface ChoiceGetter {
+        void getChoice();
+    }
+
     private final Scanner sc;
     private final TimerService timerService;
 
     public GetChoice(
             Scanner sc,
             TimerService timerService,
-            PlayerInfo playerInfo
+            RoundInfo roundInfo
     ) {
-        super(playerInfo);
+        super(roundInfo);
         this.timerService = timerService;
         this.sc = sc;
     }
@@ -27,12 +32,12 @@ public class GetChoice extends GameAction {
         if (!this.timerService.isTimerActive()) this.timerService.startTimer();
 
         final int choice = getChoice();
-        playerInfo.setChoice(choice);
+        roundInfo.setChoice(choice);
         this.executeNext();
     }
 
     private int getChoice() {
-        PlayerInfo.Settings settings = playerInfo.getSettings();
+        RoundInfo.Settings settings = roundInfo.getSettings();
         Integer choice = null;
 
         do {
@@ -40,11 +45,11 @@ public class GetChoice extends GameAction {
             try {
                 choice = sc.nextInt();
 
-                if (choice < settings.getStartingNumber() || choice > settings.getEndingNumber()) {
+                if (choice < settings.startingNumber() || choice > settings.endingNumber()) {
                     throw new IllegalArgumentException();
                 }
             } catch (InputMismatchException | IllegalArgumentException e) {
-                System.out.printf("Please insert a number between %s and %s \n", settings.getStartingNumber(), settings.getEndingNumber());
+                System.out.printf("Please insert a number between %s and %s \n", settings.startingNumber(), settings.endingNumber());
                 choice = null;
                 sc.nextLine();
             }

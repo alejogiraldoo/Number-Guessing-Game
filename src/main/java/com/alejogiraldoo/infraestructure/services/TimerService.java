@@ -2,6 +2,7 @@ package com.alejogiraldoo.infraestructure.services;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class TimerService {
@@ -13,14 +14,17 @@ public class TimerService {
     }
 
     public boolean isTimerActive() {
-        return !Objects.isNull( start );
+        return !Objects.isNull(start);
     }
 
-    public long endTimer() {
+    public LocalTime endTimer() {
         Instant end = Instant.now();
-        Duration elapsed = Duration.between( start, end );
+
+        Duration elapsed = Duration.between(start, end);
+        LocalTime time = LocalTime.MIDNIGHT.plus(elapsed);
+
         this.start = null;
-        return elapsed.toSeconds();
+        return time;
     }
 
 }

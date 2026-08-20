@@ -1,7 +1,9 @@
 package com.alejogiraldoo;
 
-import com.alejogiraldoo.domain.entities.PlayerInfo;
+import com.alejogiraldoo.infraestructure.services.RoundService;
+import com.alejogiraldoo.infraestructure.services.StatsService;
 import com.alejogiraldoo.infraestructure.services.TimerService;
+import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 import com.alejogiraldoo.presentation.GuessingGame;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -9,10 +11,16 @@ import com.alejogiraldoo.presentation.GuessingGame;
 public class Main {
 
     public static void main(String[] args) {
-        final PlayerInfo.Settings settings = new PlayerInfo.Settings(1, 100);
+        final RoundInfo.Settings settings = new RoundInfo.Settings(1, 100);
         final TimerService timerService = new TimerService();
+        final RoundService roundService = new RoundService();
+        final StatsService statsService = new StatsService();
 
-        new GuessingGame(timerService, settings).start();
-
+        new GuessingGame(
+                timerService,
+                roundService,
+                statsService,
+                settings
+        ).start();
     }
 }

@@ -1,7 +1,7 @@
 package com.alejogiraldoo.infraestructure.actions;
 
-import com.alejogiraldoo.domain.entities.PlayerInfo;
 import com.alejogiraldoo.domain.enums.EDifficultyLevel;
+import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
 import java.util.InputMismatchException;
 import java.util.Objects;
@@ -12,8 +12,8 @@ public class GetDifficultyLevel extends GameAction {
     private final Scanner sc;
     private final EDifficultyLevel[] difficultyLevels = EDifficultyLevel.values();
 
-    public GetDifficultyLevel(Scanner sc, PlayerInfo personInfo) {
-        super(personInfo);
+    public GetDifficultyLevel(Scanner sc, RoundInfo roundInfo) {
+        super(roundInfo);
         this.sc = sc;
     }
 
@@ -22,7 +22,7 @@ public class GetDifficultyLevel extends GameAction {
         this.showMessage();
 
         final EDifficultyLevel difficulty = this.getDifficulty();
-        playerInfo.setDifficultyLevel(difficulty);
+        roundInfo.setDifficulty(difficulty);
 
         this.executeNext();
     }
