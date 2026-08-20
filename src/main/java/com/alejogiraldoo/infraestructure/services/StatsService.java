@@ -7,7 +7,6 @@ import com.alejogiraldoo.infraestructure.DAOs.BestRoundInLevelDAO;
 import com.alejogiraldoo.infraestructure.DAOs.LevelPrecisionRateDAO;
 import com.alejogiraldoo.infraestructure.DAOs.LevelStreakDAO;
 
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,23 +19,18 @@ public class StatsService {
     ) {
     }
 
-    public Optional<Stats> getAllStats() {
-        try {
-            var bestRoundInLevels = new BestRoundInLevelDAO().getRounds();
+    public Stats getAllStats() {
+        var bestRoundInLevels = new BestRoundInLevelDAO().getRounds();
 
-            var levelsPrecisionRate = new LevelPrecisionRateDAO().getPrecisions();
+        var levelsPrecisionRate = new LevelPrecisionRateDAO().getPrecisions();
 
-            var levelsStreak = new LevelStreakDAO().getStreaks();
+        var levelsStreak = new LevelStreakDAO().getStreaks();
 
-            return Optional.of(new Stats(
-                    bestRoundInLevels,
-                    levelsPrecisionRate,
-                    levelsStreak
-            ));
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return Optional.empty();
-        }
+        return new Stats(
+                bestRoundInLevels,
+                levelsPrecisionRate,
+                levelsStreak
+        );
     }
 
 }

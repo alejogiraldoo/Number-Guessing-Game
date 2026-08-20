@@ -10,7 +10,6 @@ import com.alejogiraldoo.infraestructure.DAOs.ResultTypeDAO;
 import com.alejogiraldoo.infraestructure.DAOs.RoundDAO;
 import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class RoundService {
@@ -22,44 +21,32 @@ public class RoundService {
     }
 
     public void saveRound(RoundInfo roundInfo) {
-        this.getRoundInfoFromDB(roundInfo.getDifficulty(), roundInfo.getGameResult()).ifPresentOrElse(
-                infoFromDB -> {
-                    if (infoFromDB.resultTypeEntity.isEmpty() || infoFromDB.levelEntity.isEmpty()) {
-                        System.out.println("Failed to retrieve the necessary info to save the round");
-                        return;
-                    }
+        var infoFromDB = this.getRoundInfoFromDB(roundInfo.getDifficulty(), roundInfo.getGameResult());
 
-                    try {
-                        RoundEntity entity = this.createRoundEntity(
-                                infoFromDB.levelEntity.get(),
-                                infoFromDB.resultTypeEntity.get(),
-                                roundInfo
-                        );
-                        new RoundDAO().createRound(entity);
-                    } catch (SQLException e) {
-                        System.out.println(e.getMessage());
-                    }
-                },
-                () -> System.out.println("ERROR: Round couldn't be saved in history...")
+        if (infoFromDB.resultTypeEntity.isEmpty() || infoFromDB.levelEntity.isEmpty()) {
+            System.out.println("Failed to retrieve the necessary info to save the round");
+            return;
+        }
+
+        RoundEntity entity = this.createRoundEntity(
+                infoFromDB.levelEntity.get(),
+                infoFromDB.resultTypeEntity.get(),
+                roundInfo
         );
+        new RoundDAO().createRound(entity);
     }
 
-    private Optional<RoundInfoFromDB> getRoundInfoFromDB(
+    private RoundInfoFromDB getRoundInfoFromDB(
             EDifficultyLevel difficulty,
             EResultType gameResult
     ) {
-        try {
-            var levelEntity = new LevelDAO().getLevel(difficulty);
-            var resultTypeEntity = new ResultTypeDAO().getType(gameResult);
+        var levelEntity = new LevelDAO().getLevel(difficulty);
+        var resultTypeEntity = new ResultTypeDAO().getType(gameResult);
 
-            return Optional.of(new RoundInfoFromDB(
-                    levelEntity,
-                    resultTypeEntity
-            ));
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return Optional.empty();
-        }
+        return new RoundInfoFromDB(
+                levelEntity,
+                resultTypeEntity
+        );
     }
 
     private RoundEntity createRoundEntity(

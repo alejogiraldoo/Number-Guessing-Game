@@ -8,6 +8,7 @@ import com.alejogiraldoo.infraestructure.services.StatsService;
 import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.Set;
 
 public class ShowRoundResults extends GameAction {
@@ -38,15 +39,14 @@ public class ShowRoundResults extends GameAction {
     }
 
     private void showStats() {
-        this.statsService.getAllStats().ifPresentOrElse(
-                stats -> {
-                    System.out.println("\n============== STATS ==============");
-                    stats.bestRoundInLevels().ifPresent(this::showBestRounds);
-                    stats.levelsPrecisionRate().ifPresent(this::showLevelsPrecision);
-                    stats.levelsStreak().ifPresent(this::showLevelsStreak);
-                },
-                () -> System.out.println("ERROR: Stats couldn't be retrieved from the DB...")
-        );
+        var stats = this.statsService.getAllStats();
+
+        if (Objects.isNull(stats)) return;
+
+        System.out.println("\n============== STATS ==============");
+        stats.bestRoundInLevels().ifPresent(this::showBestRounds);
+        stats.levelsPrecisionRate().ifPresent(this::showLevelsPrecision);
+        stats.levelsStreak().ifPresent(this::showLevelsStreak);
     }
 
     private void showBestRounds(Set<BestRoundInLevelEntity> rounds) {

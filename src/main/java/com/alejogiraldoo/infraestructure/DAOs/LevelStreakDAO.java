@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.DAOs;
 
-import com.alejogiraldoo.config.DBConnector;
+import com.alejogiraldoo.config.ConnectionPool;
 import com.alejogiraldoo.domain.entities.LevelStreakEntity;
 
 import java.sql.Connection;
@@ -13,19 +13,13 @@ import java.util.Set;
 
 public class LevelStreakDAO {
 
-    private final DBConnector dbConnector;
-
-    public LevelStreakDAO() throws SQLException {
-        this.dbConnector = DBConnector.getInstance();
-    }
-
     public Optional<Set<LevelStreakEntity>> getStreaks() {
         String sql = "SELECT * FROM levels_streak";
 
         HashSet<LevelStreakEntity> streaks = new HashSet<>();
 
         try (
-                Connection connection = dbConnector.getConnection();
+                Connection connection = ConnectionPool.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql);
         ) {
@@ -35,7 +29,7 @@ public class LevelStreakDAO {
             }
 
             return Optional.of(streaks);
-        } catch (SQLException e) {
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
             System.out.println(e.getMessage());
             return Optional.empty();
         }

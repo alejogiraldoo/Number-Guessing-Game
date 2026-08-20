@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.DAOs;
 
-import com.alejogiraldoo.config.DBConnector;
+import com.alejogiraldoo.config.ConnectionPool;
 import com.alejogiraldoo.domain.entities.ResultTypeEntity;
 import com.alejogiraldoo.domain.enums.EResultType;
 
@@ -12,32 +12,24 @@ import java.util.Optional;
 
 public class ResultTypeDAO {
 
-    private final DBConnector dbConnector;
-
-    public ResultTypeDAO() throws SQLException {
-        this.dbConnector = DBConnector.getInstance();
-    }
-
     public Optional<ResultTypeEntity> getType(EResultType type) {
         String sql = "SELECT * FROM result_types WHERE name = ?";
 
         try (
-                Connection connection = dbConnector.getConnection();
+                Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
         ) {
             statement.setString(1, type.name());
 
-            ResultSet result = statement.executeQuery();
+            try (ResultSet result = statement.executeQuery()) {
+                if (!result.next()) {
+                    return Optional.empty();
+                }
 
-            if (!result.next()) {
-                result.close();
-                return Optional.empty();
+                ResultTypeEntity typeEntity = this.objectToEntity(result);
+                return Optional.of(typeEntity);
             }
-
-            ResultTypeEntity typeEntity = this.objectToEntity(result);
-            result.close();
-            return Optional.of(typeEntity);
-        } catch (SQLException e) {
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
             System.out.println(e.getMessage());
             return Optional.empty();
         }

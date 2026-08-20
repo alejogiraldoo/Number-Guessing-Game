@@ -1,6 +1,6 @@
 package com.alejogiraldoo.infraestructure.DAOs;
 
-import com.alejogiraldoo.config.DBConnector;
+import com.alejogiraldoo.config.ConnectionPool;
 import com.alejogiraldoo.domain.entities.BestRoundInLevelEntity;
 
 import java.sql.Connection;
@@ -14,19 +14,13 @@ import java.util.Set;
 
 public class BestRoundInLevelDAO {
 
-    private final DBConnector dbConnector;
-
-    public BestRoundInLevelDAO() throws SQLException {
-        this.dbConnector = DBConnector.getInstance();
-    }
-
     public Optional<Set<BestRoundInLevelEntity>> getRounds() {
         String sql = "SELECT * FROM best_round_in_levels";
 
         HashSet<BestRoundInLevelEntity> rounds = new HashSet<>();
 
         try (
-                Connection connection = dbConnector.getConnection();
+                Connection connection = ConnectionPool.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql);
         ) {
@@ -36,7 +30,7 @@ public class BestRoundInLevelDAO {
             }
 
             return Optional.of(rounds);
-        } catch (SQLException e) {
+        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
             System.out.println(e.getMessage());
             return Optional.empty();
         }
