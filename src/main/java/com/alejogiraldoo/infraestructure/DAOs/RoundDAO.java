@@ -1,20 +1,25 @@
 package com.alejogiraldoo.infraestructure.DAOs;
 
-import com.alejogiraldoo.config.ConnectionPool;
 import com.alejogiraldoo.domain.entities.RoundEntity;
+import com.alejogiraldoo.domain.errors.CustomError;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RoundDAO {
+public class RoundDAO extends BaseDAO<RoundEntity> {
 
-    public void createRound(RoundEntity round) {
+    public RoundDAO() throws CustomError {
+        super();
+    }
+
+    public void createRound(RoundEntity round) throws CustomError {
         String sql = "INSERT INTO rounds(level_id, result_type_id, attempts, taken_time, guessing_number) " +
                 "VALUES (?,?,?,?,?)";
 
         try (
-                Connection connection = ConnectionPool.getConnection();
+                Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
         ) {
             statement.setLong(1, round.getLevelId());
@@ -24,8 +29,13 @@ public class RoundDAO {
             statement.setInt(5, round.getGuessingNumber());
 
             statement.executeUpdate();
-        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            throw new CustomError("Round couldn't be saved in history");
         }
+    }
+
+    @Override
+    protected RoundEntity objectToEntity(ResultSet resultSet) throws SQLException {
+        return null;
     }
 }

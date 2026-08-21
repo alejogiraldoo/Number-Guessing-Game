@@ -1,8 +1,8 @@
 package com.alejogiraldoo.infraestructure.DAOs;
 
-import com.alejogiraldoo.config.ConnectionPool;
 import com.alejogiraldoo.domain.entities.ResultTypeEntity;
 import com.alejogiraldoo.domain.enums.EResultType;
+import com.alejogiraldoo.domain.errors.CustomError;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,13 +10,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class ResultTypeDAO {
+public class ResultTypeDAO extends BaseDAO<ResultTypeEntity> {
 
-    public Optional<ResultTypeEntity> getType(EResultType type) {
+
+    public ResultTypeDAO() throws CustomError {
+        super();
+    }
+
+    public Optional<ResultTypeEntity> getType(EResultType type) throws CustomError {
         String sql = "SELECT * FROM result_types WHERE name = ?";
 
         try (
-                Connection connection = ConnectionPool.getConnection();
+                Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
         ) {
             statement.setString(1, type.name());
@@ -29,13 +34,12 @@ public class ResultTypeDAO {
                 ResultTypeEntity typeEntity = this.objectToEntity(result);
                 return Optional.of(typeEntity);
             }
-        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
-            System.out.println(e.getMessage());
-            return Optional.empty();
+        } catch (SQLException e) {
+            throw new CustomError("Result type couldn't be retrieved from the DB");
         }
     }
 
-    private ResultTypeEntity objectToEntity(ResultSet result) throws SQLException {
+    protected ResultTypeEntity objectToEntity(ResultSet result) throws SQLException {
         return new ResultTypeEntity(
                 result.getLong("result_type_id"),
                 result.getString("name")

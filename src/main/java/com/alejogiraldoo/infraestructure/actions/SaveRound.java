@@ -1,5 +1,6 @@
 package com.alejogiraldoo.infraestructure.actions;
 
+import com.alejogiraldoo.domain.errors.CustomError;
 import com.alejogiraldoo.infraestructure.services.RoundService;
 import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
@@ -17,7 +18,11 @@ public class SaveRound extends GameAction {
 
     @Override
     public void execute() {
-        this.roundService.saveRound(roundInfo);
-        this.executeNext();
+        try {
+            this.roundService.saveRound(roundInfo);
+            this.executeNext();
+        } catch (CustomError e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

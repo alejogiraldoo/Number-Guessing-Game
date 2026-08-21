@@ -4,11 +4,11 @@ import com.alejogiraldoo.domain.entities.BestRoundInLevelEntity;
 import com.alejogiraldoo.domain.entities.LevelPrecisionRateEntity;
 import com.alejogiraldoo.domain.entities.LevelStreakEntity;
 import com.alejogiraldoo.domain.enums.EResultType;
+import com.alejogiraldoo.domain.errors.CustomError;
 import com.alejogiraldoo.infraestructure.services.StatsService;
 import com.alejogiraldoo.infraestructure.utils.RoundInfo;
 
 import java.time.LocalTime;
-import java.util.Objects;
 import java.util.Set;
 
 public class ShowRoundResults extends GameAction {
@@ -39,14 +39,17 @@ public class ShowRoundResults extends GameAction {
     }
 
     private void showStats() {
-        var stats = this.statsService.getAllStats();
+        try {
+            var stats = this.statsService.getAllStats();
 
-        if (Objects.isNull(stats)) return;
+            System.out.println("\n============== STATS ==============");
+            if (!stats.bestRoundInLevels().isEmpty()) this.showBestRounds(stats.bestRoundInLevels());
+            if (!stats.levelsPrecisionRate().isEmpty()) this.showLevelsPrecision(stats.levelsPrecisionRate());
+            if (!stats.levelsStreak().isEmpty()) this.showLevelsStreak(stats.levelsStreak());
 
-        System.out.println("\n============== STATS ==============");
-        stats.bestRoundInLevels().ifPresent(this::showBestRounds);
-        stats.levelsPrecisionRate().ifPresent(this::showLevelsPrecision);
-        stats.levelsStreak().ifPresent(this::showLevelsStreak);
+        } catch (CustomError e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showBestRounds(Set<BestRoundInLevelEntity> rounds) {

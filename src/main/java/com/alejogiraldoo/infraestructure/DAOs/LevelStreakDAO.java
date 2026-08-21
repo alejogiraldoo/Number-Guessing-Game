@@ -1,25 +1,28 @@
 package com.alejogiraldoo.infraestructure.DAOs;
 
-import com.alejogiraldoo.config.ConnectionPool;
 import com.alejogiraldoo.domain.entities.LevelStreakEntity;
+import com.alejogiraldoo.domain.errors.CustomError;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
-public class LevelStreakDAO {
+public class LevelStreakDAO extends BaseDAO<LevelStreakEntity> {
 
-    public Optional<Set<LevelStreakEntity>> getStreaks() {
+    public LevelStreakDAO() throws CustomError {
+        super();
+    }
+
+    public Set<LevelStreakEntity> getStreaks() throws CustomError {
         String sql = "SELECT * FROM levels_streak";
 
         HashSet<LevelStreakEntity> streaks = new HashSet<>();
 
         try (
-                Connection connection = ConnectionPool.getConnection();
+                Connection connection = getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet result = statement.executeQuery(sql);
         ) {
@@ -28,14 +31,13 @@ public class LevelStreakDAO {
                 streaks.add(levelStreakEntity);
             }
 
-            return Optional.of(streaks);
-        } catch (SQLException | ExceptionInInitializerError | NoClassDefFoundError e) {
-            System.out.println(e.getMessage());
-            return Optional.empty();
+            return streaks;
+        } catch (SQLException e) {
+            throw new CustomError("Levels Streak couldn't be retrieved from the DB");
         }
     }
 
-    private LevelStreakEntity objectToEntity(ResultSet result) throws SQLException {
+    protected LevelStreakEntity objectToEntity(ResultSet result) throws SQLException {
         return new LevelStreakEntity(
                 result.getString("difficulty_level"),
                 result.getInt("consecutive_wins"),
